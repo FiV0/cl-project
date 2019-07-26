@@ -1,24 +1,18 @@
-(defsystem "<% @var name %>"
-  :version "0.1.0"
+#|
+  This file is a part of <% @var name %>.
+  (c) 2019 <% @var author %> 
+  Author: <% @var author %> <% @if email %> (<% @var email %>)<% @endif %>
+|#
+
+(asdf:defsystem <% @var name %>
+  :version "0.0.1"
   :author "<% @var author %>"
   :license "<% @var license %>"
+  :serial t
   :depends-on (<% (format t "~{\"~(~A~)\"~^~%               ~}"
                           (getf env :depends-on)) %>)
-  :components ((:module "src"
-                :components
-                ((:file "main"))))
+  :components ((:file "<% @var name %>"))
   :description "<% @var description %>"
   <%- @unless without-tests %>
-  :in-order-to ((test-op (test-op "<% @var name %>/tests")))
+  :in-order-to ((test-op (test-op "<% @var name %>-test")))
   <%- @endunless %>)
-
-(defsystem "<% @var name %>/tests"
-  :author "<% @var author %>"
-  :license "<% @var license %>"
-  :depends-on ("<% @var name %>"
-               "rove")
-  :components ((:module "tests"
-                :components
-                ((:file "main"))))
-  :description "Test system for <% @var name %>"
-  :perform (test-op (op c) (symbol-call :rove :run c)))
